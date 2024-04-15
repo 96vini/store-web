@@ -19,14 +19,14 @@ export default function ProductList({ product }) {
         <Container>
             <ProductInfo>
                 <Galery>
-                    <ProductImage src="/images/products/camiseta_off_white.png" alt="Camiseta Off White" />
+                    <ProductImage src="/images/products/camisa_corinthians.png" alt="Camiseta Off White" />
                 </Galery>    
             </ProductInfo>
             <UserInfo>
                 <UserHead>
                     <ProductDescription>
                         <ProductTitle>{product.name}</ProductTitle>
-                        <ProductPrice>R${product.price}</ProductPrice>
+                        <ProductPrice>R${product.price},00</ProductPrice>
                     </ProductDescription>
                 </UserHead>
                 <ProductSizeBox>

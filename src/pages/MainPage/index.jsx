@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Container } from './styles';
+import { Container, PreviousProduct, NextProduct, PreviousIcon, NextIcon } from './styles';
 
 import Navbar from '../../components/Navbar';
 import ProductList from '../../components/ProductList';
@@ -24,9 +24,15 @@ export default function MainPage() {
         <Container>
             <Navbar />
             <div>
+                <PreviousProduct>
+                    <PreviousIcon />
+                </PreviousProduct>
                 {products.map((product, index) => (
                     <ProductList product={product} key={index}/>
                 ))}
+                <NextProduct>
+                    <NextIcon />
+                </NextProduct>
             </div>
         </Container>
     );

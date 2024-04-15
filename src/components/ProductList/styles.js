@@ -18,6 +18,7 @@ export const UserPicture = styled.img`
 `;
 
 export const ProductTitle = styled.h1`
+    color: #222;
     margin: 0;
 `;
 
@@ -26,8 +27,9 @@ export const ProductPrice = styled.h2`
 `;
 
 export const ProductImage = styled.img`
-    width: auto;
-    height: 300px;
+    width: 100%;
+    max-height: 450px;
+    border-radius: 10px;
 `;
 
 export const UserInfo = styled.div`
@@ -62,7 +64,7 @@ export const ProductInfo = styled.div`
     justify-content: center;
     align-items: center;
     width: 600px;
-    height: 400px;
+    height: 500px;
     background: #FFF;
     border-radius: 15px;
 `;
