@@ -1,60 +1,63 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-    display: flex;
-    justify-content: center;
+export const MainContainer = styled.div`
     width: 100%;
     height: 100vh;
     background: #FFF;
 `;
 
-export const PreviousProduct = styled.div`
+
+export const CarouselContainer = styled.div`
+    width: 100%;
+    height: 70vh;
+    background: red;
+`;
+
+export const ProductsByCategoryContainer = styled.div`
+    width: 100%;
+    height: 100vh;
+    background: #444446;
+    position: absolute;
+    z-index: 1;
+`;
+
+export const CategoryButtonsBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    height: 80px;
+    margin-top: 50px;
+    cursor: pointer;
+`;
+
+export const CategoryProducts = styled.div`
+    position: absolute;
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: absolute;
+    flex-wrap: wrap;
+    margin-top: 20vh;
+    gap: 10px;
+    width: 100%;
+`;
+
+export const CategoryProduct = styled.div`
+    width: calc(25% - 10px);
+    height: 450px;
+    background-color: red;
+`;
+
+export const CategoryButton = styled.div`
+    justify-content: space-between;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    background: pink;
+    margin: 0px 10px;
     cursor: pointer;
-    width: 60px;
-    height: 60px;
-    background: #222;
-    left: 10%;
-    top: 35%;
-    border-radius: 50%;
-
-    &:hover {
-        opacity: 0.6;
-    }
-    
-`;
-
-export const PreviousIcon = styled.div`
-    width: 35px;
-    height: 35px;
-    background-image: url('/images/previous_icon.png');
     background-size: cover;
-`;
 
-export const NextProduct = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    cursor: pointer;
-    width: 60px;
-    height: 60px;
-    background: #222;
-    right: 10%;
-    top: 35%;
-    border-radius: 50%;
-
-    &:hover {
-        opacity: 0.6;
+    &.sneaker {
+        background-image: url('/images/sneaker_icon.png');
     }
-`;
-
-export const NextIcon = styled.div`
-    width: 50px;
-    height: 50px;
-    background-image: url('/images/next_icon.png');
-    background-size: cover;
 `;
