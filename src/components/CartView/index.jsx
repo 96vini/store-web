@@ -1,15 +1,20 @@
 import React from 'react';
 
 export default function CartView(products) {
-
     return (
         <div className='w-full h-screen pt-[10vh]'>
             <div className='w-full text-center flex justify-center'>
-            
                 <div className='w-1/2 shadow-md h-auto mx-2'>
-                    <div className='w-2/5 px-[5vh] py-[2vh]'>
-                        <div className='w-full'>
-                            <img src="/images/products/camisa_corinthians.png" className="h-[10vh]" alt="" />
+                    <div className='w-full px-[5vh] py-[2vh]'>
+                        <div className='bg-blue-500 flex justify-start'>
+                            <div>
+                                <img src="/images/products/camisa_corinthians.png" className="h-[15vh]" alt="" />
+                            </div>
+                            <div className='text-left'>
+                                <h1 className='text-lg bg-red-400'>Camisa Corinthians</h1>
+                                <h1 className='text-xl bg-red-400'>$10.00</h1>
+                            </div>
+                            
                         </div>
                     </div>
                     <div className='w-2/5 px-[5vh] py-[2vh]'>
