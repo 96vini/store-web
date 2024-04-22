@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+
 import Navbar from '../../components/Navbar';
+import CartView from '../../components/CartView';
 
 export default function Cart() {
-    const [product, setProducts] = useState([
+    const [products, setProducts] = useState([
         {
             price: 50.00,
             name: 'Camiseta do Corinthians'
@@ -18,10 +20,10 @@ export default function Cart() {
     ]);
 
     return (
-        <div className="bg-red-500 w-full h-screen">
+        <div className="w-full h-screen">
             <Navbar />
             <div className="w-full h-auto flex justify-center">
-                {/* <ProductView product={product}/> */}
+                <CartView product={products}/>
             </div>
         </div>
     );
