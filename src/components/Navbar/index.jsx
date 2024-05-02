@@ -1,55 +1,101 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { SearchInput } from './styles';
+import AuthContext from '../../contexts/AuthContext';
 
-import { 
-    Container,
-    Box,
-    Logotipo,
-    BoxSearch,
-    SearchInput,
-    BoxUser,
-    BoxCartUser,
-    BoxCartUserContainer,
-    FinishCart,
-    BoxProfilePicture,
-    ProfilePicture
-} from './styles';
+import api from '../../services/api';
 
 export default function Navbar() {
-
+    const { user, logout, isLoggedIn, firstNameLogged } = useContext(AuthContext);
     const [showCart, setShowCart] = useState(false);
+    const [activeSearch, setActiveSearch] = useState(false);
+    const [setErrMessage, errMessage] = useState('');
+    const [results, setResults] = useState();
+    const [param, setParam] = useState('');
+
+    const handleLogout = () => {
+        logout();
+    }
+
+    const handleSearch = (e) => {
+        const text = e.target.value;
+
+        if (text.length > 3) {
+            fetchResults();
+            setActiveSearch(true);
+        } else {
+            setActiveSearch(false);
+        }
+    };
+
+    const fetchResults = async(param) => {
+        await api.post('/posts', {
+            param
+        })
+        .then(res => setResults(res.data))
+        .catch(err => setErrMessage(err))
+    };
 
     return (
-        <div class="bg-[#222] w-full h-20 flex justify-center items-center">
-            <div className='md:w-[70%] sm:w-[100%] flex justify-center items-center'>
-                <div className='w-1/5 flex justify-center items-center'>
-                    <a href="/">
-                        <div className='text-white'>
-                            <svg className='h-[4vh] w-auto' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.4" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-2.25-1.313M21 7.5v2.25m0-2.25-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3 2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75 2.25-1.313M12 21.75V19.5m0 2.25-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
-                            </svg>
-                        </div>
-                    </a>
+        <div>
+            <div className='w-full h-10 bg-cyan-800 flex justify-end items-center text-white'>
+                <div className='w-1/3 h-10 px-7 py-2'>
+                    <ul className='w-full flex justify-end grid-cols-3 gap-6'>
+                        {isLoggedIn ? (
+                            <li className='text-sm'>
+                            Welcome back, <span className='font-semibold'>{firstNameLogged}</span>
+                        </li>
+                        ) : (
+                            <li className='text-sm'>
+                                <a href="/">Not logged in</a>
+                            </li>
+                        )}
+                        <li className='text-sm underline'>
+                            {isLoggedIn ? ( 
+                                <a onClick={handleLogout} href="/">Logout</a>
+                            ) : 
+                            (
+                                <a href="/login">Sign In</a>
+                            )}
+                        </li>
+                    </ul>
                 </div>
-                <div className='w-2/5 flex justify-center items-center'>
-                    <SearchInput className="w-[60%] rounded-lg" type="text" placeholder='Buscar' />
-                </div>
-                <div className='w-1/3 h-auto flex justify-center items-center'>
-                    <div className='w-full flex justify-center items-center' onClick={() => setShowCart(!showCart)}>
-                        <div className='text-white'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-auto h-[3vh]">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                            </svg>
-                        </div>
+            </div>
+            <div className="bg-cyan-600 w-full h-20 flex justify-center items-center">
+                <div className='md:w-[100%] sm:w-[100%] flex justify-center items-center'>
+                    <div className='w-1/4 flex justify-center items-center'>
+                        <a href="/">
+                            <div className='text-white'>
+                                <img src="/images/logotipo.png" className="w-[4vh]" alt="" />
+                            </div>
+                        </a>
                     </div>
-                    <BoxCartUserContainer style={{ display: showCart ? 'block' : 'none' }}>
-                        <div style={{ padding: '5px 10px' }}>
-                            <h1 style={{ textAlign: 'center', margin: 0 }}>😔</h1>
-                            <p>Nenhum produto adicionado ao carrinho </p>
+                    <div className='w-1/3 h-auto grid grid-cols-1'>
+                        <SearchInput onChange={(e) => setParam(e.target.value)} className="w-full text-cyan-800 bg-white border-cyan-600 rounded-md" type="text" placeholder='Buscar' onClick={handleSearch} />
+                        {activeSearch &&
+                            <div className='w-1/4 h-auto mt-[8vh] rounded-md p-2 bg-white shadow-sm shadow-secondary absolute z-50 text-center' onAuxClick={() => setActiveSearch(false)}>
+                                <div className='w-full bg-[#AAA] p-2 h-[9vh]'></div>
+                                <div className='w-full bg-[#BBB] p-2 h-[9vh]'></div>
+                                <div className='w-full bg-[#CCC] p-2 h-[9vh]'></div>
+                                <div className='w-full bg-[#DDD] p-2 h-[9vh]'></div>
+                                <div className='w-full bg-[#EEE] p-2 h-[9vh]'></div>
+                            </div>
+                        }
+                    </div>
+                    <div className='w-1/4 h-auto flex justify-end items-center pl-5'>
+                        <div className='w-1/2' onClick={() => setShowCart(!showCart)}>
+                            <div className='text-primary flex justify-around items-center'>
+                                <a className='text-white hover:text-cyan-800' >
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                                <a className='text-white hover:text-cyan-800' href='/cart'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                        <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z" clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
-                        <FinishCart>Finalizar</FinishCart>
-                    </BoxCartUserContainer>
-                    <div className='w-full h-auto flex justify-center items-center'>
-                        <img src="/images/users/user_vinicius.jpg" className='w-auto h-[5vh] max-w-[7vh] rounded-3xl' alt="" />
                     </div>
                 </div>
             </div>

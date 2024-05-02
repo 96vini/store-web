@@ -43,9 +43,11 @@ export const BoxSearch = styled.div`
 `;
 
 export const SearchInput = styled.input`
-    width: 100%;
+    width: 80%;
+    display: flex;
+    justify-self: center;
     height: 40px;
-    border: 0;
+    border: none;
     padding: 0px 15px;
     text-align: center;
 `;
